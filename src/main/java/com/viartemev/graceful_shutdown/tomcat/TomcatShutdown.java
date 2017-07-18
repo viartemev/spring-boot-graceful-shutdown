@@ -1,6 +1,6 @@
-package com.viartemev.springframework.boot.shutdown.servers;
+package com.viartemev.graceful_shutdown.tomcat;
 
-import com.viartemev.springframework.boot.shutdown.configuration.ShutdownProperties;
+import com.viartemev.graceful_shutdown.ShutdownProperties;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.threads.ThreadPoolExecutor;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class TomcatShutdown implements TomcatConnectorCustomizer, ApplicationLis
             try {
                 ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
                 threadPoolExecutor.shutdown();
-                while (!threadPoolExecutor.awaitTermination(shutdownProperties.getTimeout(), TimeUnit.MILLISECONDS)) {
+                while (!threadPoolExecutor.awaitTermination(shutdownProperties.getTimeout(), shutdownProperties.getTimeUnit())) {
                     LOG.warn("Waiting termination of threads...");
                 }
             } catch (InterruptedException ex) {
