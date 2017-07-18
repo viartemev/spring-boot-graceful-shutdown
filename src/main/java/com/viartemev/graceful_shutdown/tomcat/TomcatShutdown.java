@@ -10,7 +10,8 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class TomcatShutdown implements TomcatConnectorCustomizer, ApplicationListener<ContextClosedEvent> {
     private static final Logger LOG = LoggerFactory.getLogger(TomcatShutdown.class.getName());
@@ -41,7 +42,7 @@ public class TomcatShutdown implements TomcatConnectorCustomizer, ApplicationLis
             try {
                 ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
                 threadPoolExecutor.shutdown();
-                while (!threadPoolExecutor.awaitTermination(shutdownProperties.getTimeout(), shutdownProperties.getTimeUnit())) {
+                while (!threadPoolExecutor.awaitTermination(shutdownProperties.getTimeout(), MILLISECONDS)) {
                     LOG.warn("Waiting termination of threads...");
                 }
             } catch (InterruptedException ex) {

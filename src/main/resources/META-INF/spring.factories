@@ -1,3 +1,4 @@
 # Auto Configurations Main class
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.viartemev.graceful_shutdown.tomcat.TomcatShutdownConfiguration
+com.viartemev.graceful_shutdown.tomcat.TomcatShutdownConfiguration,\
+com.viartemev.graceful_shutdown.undertow.UndertowShutdownConfiguration
